@@ -1,0 +1,62 @@
+import os
+import time
+import colorama
+from colorama import Fore,Style
+from phantom_tool import port_scanner,subdomain
+
+# Initialize colorama
+colorama.init(autoreset=True)
+
+# Manually created ASCII-styled MENU logo
+logo = ( Fore.BLUE + r"""
+*----------*-----------*----------*---------*---------*---------*-----------*----------*
+            ____  _   _ __  __     __  __ _____ _   _ _    _
+           |  _ \| | | |  \/  |   |  \/  | ____| \ | | |  | |
+           | |_) | |_| | |\/| |   | |\/| |  _| |  \| | |  | |
+           |  __/|  _  | |  | |   | |  | | |___| |\  | |__| |
+           |_|   |_| |_|_|  |_|   |_|  |_|_____|_| \_|\_____/
+*--------*-----------*-----------*----------*-----------*--------*-----------*----------*
+""" +Style.RESET_ALL )
+
+# Loading effect with "_"
+def loading_effect():
+    os.system('clear' if os.name == 'posix' else 'cls')
+    print(logo)
+    loading_bar = "-"
+    for _ in range(20):
+        loading_bar += "~~"
+        print(Fore.BLUE + loading_bar, end="\r", flush=True)
+        time.sleep(0.1)
+    time.sleep(0.5)
+    os.system('clear' if os.name == 'posix' else 'cls')
+
+# Main Menu
+def main_menu():
+    loading_effect()
+    print(logo)
+    print(f"{Fore.BLUE}Select a tool to use:\n")
+    print(f"{Fore.BLUE}[1] Tool 1 (Port Scanner)")
+    print(f"{Fore.BLUE}[2] Tool 2 (Subdomain & directory finder)")
+    print(f"{Fore.BLUE}[3] Tool 3 (Coming Soon)")
+    print(f"{Fore.BLUE}[0] Exit\n")
+
+    choice = input(f"{Fore.BLUE}Enter your choice: ")
+
+    if choice == "1":
+        port_scanner.port_scan()
+    elif choice == "2":
+        subdomain.run_subdomain()
+    elif choice == "3":
+        print(Fore.BLUE + "Tool 3 is not available yet. (Placeholder)")
+    elif choice == "0":
+        print(Fore.GREEN + "Exiting...")
+        exit()
+    else:
+        print(Fore.RED + "Invalid choice! Try again.")
+    
+    input(f"{Fore.BLUE}Press Enter to continue...")
+    main_menu()
+
+# Run the program
+if __name__ == "__main__":
+    main_menu()
