@@ -2,7 +2,7 @@ import os
 import time
 import colorama
 from colorama import Fore,Style
-from phantom_tool import port_scanner,subdomain
+from phantom_tool import port_scanner,subdomain,whois
 
 # Initialize colorama
 colorama.init(autoreset=True)
@@ -35,9 +35,9 @@ def main_menu():
     loading_effect()
     print(logo)
     print(f"{Fore.BLUE}Select a tool to use:\n")
-    print(f"{Fore.BLUE}[1] Tool 1 (Port Scanner)")
-    print(f"{Fore.BLUE}[2] Tool 2 (Subdomain & directory finder)")
-    print(f"{Fore.BLUE}[3] Tool 3 (Coming Soon)")
+    print(f"{Fore.BLUE}[1] Port Scanner")
+    print(f"{Fore.BLUE}[2] Subdomain & directory finder")
+    print(f"{Fore.BLUE}[3] Whois")
     print(f"{Fore.BLUE}[0] Exit\n")
 
     choice = input(f"{Fore.BLUE}Enter your choice: ")
@@ -47,7 +47,7 @@ def main_menu():
     elif choice == "2":
         subdomain.run_subdomain()
     elif choice == "3":
-        print(Fore.BLUE + "Tool 3 is not available yet. (Placeholder)")
+    	whois.whois_main()
     elif choice == "0":
         print(Fore.GREEN + "Exiting...")
         exit()

@@ -44,6 +44,7 @@ common_services = {
 }
 
 ports = list(common_services.keys())
+
 def main_scanner(target, start_port, end_port):
     print(f"\nScanning {target} from port {start_port} to {end_port}...\n")
     try:
@@ -57,7 +58,7 @@ def main_scanner(target, start_port, end_port):
                     com_port = common_services.get(port,"unknown")
                     print(Fore.GREEN + f"[+] port {port} for service {com_port} is OPEN")
                 else:
-                    print(Fore.GREEN + f"[+] Port {port} is OPEN")
+                    print(Fore.GREEN + f"[+] Port {port} for 'unknown' service is OPEN")
             sock.close()
     except KeyboardInterrupt:
         print(Fore.RED + "\n[!] Scan interrupted by user.")
