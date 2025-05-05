@@ -4,10 +4,8 @@ import colorama
 from colorama import Fore,Style
 from phantom_tool import port_scanner,subdomain,whois
 
-# Initialize colorama
 colorama.init(autoreset=True)
 
-# Manually created ASCII-styled MENU logo
 logo = ( Fore.BLUE + r"""
 *----------*-----------*----------*---------*---------*---------*-----------*----------*
             ____  _   _ __  __     __  __ _____ _   _ _    _
@@ -18,19 +16,17 @@ logo = ( Fore.BLUE + r"""
 *--------*-----------*-----------*----------*-----------*--------*-----------*----------*
 """ +Style.RESET_ALL )
 
-# Loading effect with "_"
 def loading_effect():
     os.system('clear' if os.name == 'posix' else 'cls')
     print(logo)
-    loading_bar = "-"
+    loading_bar = "="
     for _ in range(20):
-        loading_bar += "~~"
+        loading_bar += "="
         print(Fore.BLUE + loading_bar, end="\r", flush=True)
         time.sleep(0.1)
     time.sleep(0.5)
     os.system('clear' if os.name == 'posix' else 'cls')
 
-# Main Menu
 def main_menu():
     loading_effect()
     print(logo)
@@ -57,6 +53,5 @@ def main_menu():
     input(f"{Fore.BLUE}Press Enter to continue...")
     main_menu()
 
-# Run the program
 if __name__ == "__main__":
     main_menu()
