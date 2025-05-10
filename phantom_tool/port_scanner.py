@@ -1,5 +1,6 @@
 import socket
 import sys
+import os
 from colorama import Fore
 
 common_services = {
@@ -46,6 +47,7 @@ common_services = {
 ports = list(common_services.keys())
 
 def main_scanner(target, start_port, end_port):
+    os.system('clear' if os.name == 'posix' else 'cls')
     print(f"\nScanning {target} from port {start_port} to {end_port}...\n")
     try:
         for port in range(start_port, end_port + 1):

@@ -1,7 +1,7 @@
 import socket
 from colorama import Fore
+import os
 
-# WHOIS servers mapped to common TLDs and sub-TLDs
 whois_servers = {
     ".com": "whois.verisign-grs.com",
     ".net": "whois.verisign-grs.com",
@@ -15,6 +15,7 @@ whois_servers = {
 }
 
 def extract_tld(domain):
+    os.system('clear' if os.name == 'posix' else 'cls')
     parts = domain.lower().split('.')
     if len(parts) >= 3:
         sub_tld = "." + parts[-2] + "." + parts[-1]  # e.g., .edu.in
@@ -27,6 +28,7 @@ def extract_tld(domain):
     return None
 
 def whois_lookup(domain):
+    os.system('clear' if os.name == 'posix' else 'cls')
     tld = extract_tld(domain)
     if not tld:
         return f"[-] Unsupported or unknown TLD for domain '{domain}'."

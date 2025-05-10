@@ -1,9 +1,11 @@
 import requests
+import os
 from colorama import Fore
 
 
 # Function to check subdomain
 def check_subdomain(domain, subdomain_list):
+    os.system('clear' if os.name == 'posix' else 'cls')
     active_subdomains = []
     
     for sub in subdomain_list:
