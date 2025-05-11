@@ -60,12 +60,12 @@ def common_port_scan(target ,ports):
 #   service = common_services.get(port)
     print(Fore.BLUE + f"[*] Target: {target}")
     print(Fore.BLUE + f"Scanning for common ports...")
-    # TCP scan ...
+
 
     if not (args.sT or args.sU):
-        print(Fore.RED + "[*] No scan type selected, defaulting to SYN scan (-sS) \n")
+        print(Fore.RED + "[*] No scan type selected, defaulting to TCP scan (-sT) \n")
         args.sT = True
-
+    # TCP scan ...
     if args.sT:
         print(Fore.BLUE + "[&] TCP  scan...\n")
         try:
@@ -123,9 +123,8 @@ if __name__ == "__main__":
     print(Fore.BLUE + "[*] Phantom Network Scanner \n")
 # Default to common port scan if no type is selected
     if not (args.pS or args.pC or args.pA):
-        print(Fore.RED + "[!] No port type selected , default to common port scan (-sS)")
+        print(Fore.RED + "[!] No port type selected , default to common port scan (-pS)")
         args.pS = True
-
     if args.pS:
         common_port_scan(target,ports)
 
