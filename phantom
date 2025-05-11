@@ -1,4 +1,4 @@
-import os
+'''import os
 import time
 import colorama
 from colorama import Fore,Style
@@ -55,3 +55,13 @@ def main_menu():
 
 if __name__ == "__main__":
     main_menu()
+'''
+#The new beginning of Phantom Project
+import argparse
+
+
+parser = argparse.ArgumentParser(description="Phantom Tool - A versatile tool for network reconnaissance.")
+parser.add_argument("-h" , "--help" , action="help", help="Show this help message and exit")
+parser.add_argument("-p", "--port", action="store_true", help="Run the port scanner")
+
+args = parser.parse_args() 

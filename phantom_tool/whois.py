@@ -1,4 +1,4 @@
-import socket
+'''import socket
 from colorama import Fore
 import os
 
@@ -53,3 +53,4 @@ def whois_main():
     print(Fore.GREEN + f"[+] Performing WHOIS lookup for: {domain}")
     result = whois_lookup(domain)
     print(Fore.GREEN + f"{result}")
+'''

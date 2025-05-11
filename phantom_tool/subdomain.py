@@ -1,4 +1,4 @@
-import requests
+'''import requests
 import os
 from colorama import Fore
 
@@ -60,3 +60,4 @@ def run_subdomain():
             print(Fore.GREEN + f"{direc} \n")
         print(Fore.GREEN+"Scan completed.")
 
+'''

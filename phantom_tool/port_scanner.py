@@ -1,7 +1,8 @@
-import socket
+'''import socket
 import sys
 import os
 from colorama import Fore
+import threading
 
 common_services = {
     20: "FTP Data",
@@ -118,3 +119,4 @@ def port_scan():
         main_scanner(target, start_port, end_port)
     elif scan_choice == "2":
         common_scan(target,ports)
+'''
