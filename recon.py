@@ -4,20 +4,17 @@ import argparse
 import socket
 import scapy
 import requests
+import time
 #import threading
 from concurrent.futures import ThreadPoolExecutor
 from colorama import Fore,Style
+from datetime import datetime
 
-#phantom logo
-logo = ( Fore.BLUE + r"""
-*----------*-----------*----------*---------*---------*---------*-----------*----------*
-            ____  _   _ __  __     __  __ _____ _   _ _    _
-           |  _ \| | | |  \/  |   |  \/  | ____| \ | | |  | |
-           | |_) | |_| | |\/| |   | |\/| |  _| |  \| | |  | |
-           |  __/|  _  | |  | |   | |  | | |___| |\  | |__| |
-           |_|   |_| |_|_|  |_|   |_|  |_|_____|_| \_|\_____/
-*--------*-----------*-----------*----------*-----------*--------*-----------*----------*
-""" +Style.RESET_ALL )
+#date and time management
+now = datetime.now()
+current_time = now.strftime("%H:%M:%S")
+current_date = now.strftime("%Y-%m-%d")
+
 
 #arguments
 parser = argparse.ArgumentParser(description="Phantom~network~Scanner")
@@ -57,17 +54,10 @@ target = args.target
 ports = list(common_services.keys())
 
 def common_port_scan(target ,ports):
-#   service = common_services.get(port)
-    print(Fore.BLUE + f"[*] Target: {target}")
-    print(Fore.BLUE + f"Scanning for common ports...")
 
-
-    if not (args.sT or args.sU):
-        print(Fore.RED + "[*] No scan type selected, defaulting to TCP scan (-sT) \n")
-        args.sT = True
     # TCP scan ...
     if args.sT:
-        print(Fore.BLUE + "[&] TCP  scan...\n")
+        print(Fore.LIGHTWHITE_EX + "[&] TCP  scan...\n"  +Style.RESET_ALL )
         try:
             for port in ports:
                 sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -75,18 +65,23 @@ def common_port_scan(target ,ports):
                 result = sock.connect_ex((target,port))
 
                 if result == 0:
-                        banner = sock.recv(1024).decode().strip()
-                        print(Fore.GREEN + f"[+] {port}  Banner : {banner} : OPEN")
+                        try:
+                            banner = sock.recv(1024).decode(errors="ignore").strip()
+                            print(Fore.LIGHTBLACK_EX + f"[+] {port} ,Banner: {banner}  |OPEN" +Style.RESET_ALL )
+                        except socket.error:
+                            print(Fore.LIGHTBLACK_EX + f"[+] {port} , No Banner |OPEN" +Style.RESET_ALL )
+                        
                 sock.close()
+                time.sleep(0.5)
 
         except KeyboardInterrupt:
-            print(Fore.RED + "\n[!] Scan interrupted by user.")
+            print(Fore.RED + "\n[!] Scan interrupted by user."  +Style.RESET_ALL )
             sys.exit(0)
         except socket.gaierror:
-            print(Fore.RED +"\n[!] Hostname could not be resolved.")
+            print(Fore.RED +"\n[!] Hostname could not be resolved."  +Style.RESET_ALL )
             sys.exit(0)
-        except socket.error:
-            print(Fore.RED +"\n[!] Couldn't connect to server.")
+        except socket.error as e:
+            print(Fore.RED +"\n[!] Couldn't connect to server.",  +Style.RESET_ALL )
             sys.exit(0)
 
 #UDP scan ...
@@ -116,15 +111,46 @@ def common_port_scan(target ,ports):
             print(Fore.RED +"\n[!] Couldn't connect to server.")
             sys.exit(0)
         '''
-if __name__ == "__main__":
 
-    os.system('clear' if os.name == 'posix' else 'cls')
-    print(logo,"\n \n")
-    print(Fore.BLUE + "[*] Phantom Network Scanner \n")
-# Default to common port scan if no type is selected
-    if not (args.pS or args.pC or args.pA):
-        print(Fore.RED + "[!] No port type selected , default to common port scan (-pS)")
+
+if __name__ == "__main__":
+    print(Fore.BLUE+ f"Phantom Recon v0.1.1 | By Phantom Group"+Style.RESET_ALL)
+    print(Fore.BLUE+ f"Starting Recon at Date: {current_date} | Time: {current_time}"+Style.RESET_ALL)
+#target | Mode | Ports
+    if args.pS:
+        scan_type = "Common"
+    elif args.pC:       
+        scan_type = "Custom"
+    elif args.pA:
+        scan_type = "All"
+    elif not (args.pS or args.pC or args.pA):
+        scan_type = "Common"
         args.pS = True
+    else:
+        print(Fore.LIGHTBLACK_EX + "Invalid Port Range"  +Style.RESET_ALL )
+
+    if args.sT:
+        scan_range = "TCP"
+    elif args.sU:     
+        scan_range = "UDP"
+    elif args.sF:
+        scan_range = "FIN"
+    elif args.sX:
+        scan_range = "Xmas"
+    elif args.sN:
+        scan_range = "Null"
+    elif args.sA:
+        scan_range = "ACK"
+    elif args.sS:
+        scan_range = "SYN"
+    elif not (args.sT or args.sU or args.sF or args.sX or args.sN or args.sA or args.sS):
+        scan_range = "TCP"
+        args.sT = True
+    else:
+        print(Fore.LIGHTBLACK_EX + "Invalid Scan Type"  +Style.RESET_ALL )
+
+    print(Fore.LIGHTWHITE_EX+ f"Target: {args.target}  |  Mode: {scan_type}  |  Ports: {scan_range}"+Style.RESET_ALL)
+
     if args.pS:
         common_port_scan(target,ports)
 
