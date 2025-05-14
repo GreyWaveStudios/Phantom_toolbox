@@ -11,7 +11,7 @@ Phantom_toolbox is a powerful and extensible hacking toolbox designed to provide
 # How to use
 If you see recon.py , main.py , and phantom_tool directory ... They are of no use , left debris of old version.
 For Recon , Network Mapping , Forensics or OSINT PHM_Recon.py is available , for help you can type:
-'python3 PHM_Recon.py -h'
+~python3 PHM_Recon.py -h~
 
 # Phantom Introduction
 
