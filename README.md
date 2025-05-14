@@ -3,9 +3,9 @@
 # Phantom_toolbox
 <br/>
 [First_Edition]V 0.1.1 (had less functionality,and was too slow for heavy tasks ... Also used CLI Menu structure for instructions like target , ports type , etc.)
-<br/>
+<br/><br/>
 [Second_Edition]V 0.1.5 (Uses argparse to give a whole menu in single line , more efficient with more recon tools)
-<br/>
+<br/><br/>
 Phantom_toolbox is a powerful and extensible hacking toolbox designed to provide commonly used security and reconnaissance tools in one place. This menu-driven framework allows users to easily access various utilities . The toolbox is built with scalability in mind, ensuring that new features and tools can be added seamlessly in the future. 
 
 # How to use
