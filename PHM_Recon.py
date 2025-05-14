@@ -33,5 +33,5 @@ parser.add_argument('-dir', action='store_true', help='Directory scanner')
 args = parser.parse_args()
 
 if __name__ == "__main__":
-    print(Fore.BLUE+ f"Phantom Recon v0.1.1 | By [Phantom Group]"+Style.RESET_ALL)
+    print(Fore.BLUE+ f"Phantom Recon v0.1.5 | By [Phantom Group]"+Style.RESET_ALL)
     print(Fore.BLUE+ f"Starting Recon at Date: {current_date} | Time: {current_time}"+Style.RESET_ALL)
