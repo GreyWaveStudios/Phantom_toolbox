@@ -5,7 +5,7 @@ import socket
 import scapy
 import requests
 import time
-#import threading
+import concurrent.futures
 from concurrent.futures import ThreadPoolExecutor
 from colorama import Fore,Style
 from datetime import datetime
@@ -54,6 +54,18 @@ common_services = {
     1433: "MS SQL Server",1521: "Oracle Database",1723: "PPTP VPN",3306: "MySQL",3389: "RDP",5900: "VNC",
     8080: "HTTP Proxy",8443: "HTTPS Proxy",9200: "Elasticsearch",27017: "MongoDB"
 }
+
+whois_servers = {
+    ".com": "whois.verisign-grs.com",
+    ".net": "whois.verisign-grs.com",
+    ".org": "whois.pir.org",
+    ".in": "whois.registry.in",
+    ".co.in": "whois.registry.in",
+    ".edu.in": "whois.registry.in",
+    ".gov.in": "whois.registry.in",
+    ".io": "whois.nic.io",
+    ".me": "whois.nic.me"
+}
 #
 target = args.target
 ports = list(common_services.keys())
@@ -67,12 +79,13 @@ ports = list(common_services.keys())
 ###########################################################################################################
 #scan methods
 
-# three way handshake (TCP)
 
+# three way handshake (TCP)
 def three_way_handshake(target, port):
-        print(Fore.LIGHTBLACK_EX + "[&] TCP  scan...\n"  +Style.RESET_ALL )
+
         #scan for common ports
-        if args.pS:           
+        if args.pS:
+            port_openorfiltered = []           
             try:
                 for port in ports:
                     sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -82,12 +95,15 @@ def three_way_handshake(target, port):
                     if result == 0:
                         try:
                             banner = sock.recv(1024).decode(errors="ignore").strip()
-                            print(Fore.LIGHTWHITE_EX + f"[+] {port} Banner: {banner}  |OPEN" +Style.RESET_ALL )
+                            port_openorfiltered.append(Fore.LIGHTWHITE_EX + f"[+] {port} Banner: {banner}  |OPEN" +Style.RESET_ALL)
+                            #print(Fore.LIGHTWHITE_EX + f"[+] {port} Banner: {banner}  |OPEN" +Style.RESET_ALL )
+                            
                         except socket.error:
-                            print(Fore.LIGHTWHITE_EX + f"[+] {port} No Banner |OPEN" +Style.RESET_ALL )       
-                sock.close()
+                            port_openorfiltered.append(Fore.LIGHTWHITE_EX + f"[+] {port} No Banner |OPEN" +Style.RESET_ALL )
+                            #print(Fore.LIGHTWHITE_EX + f"[+] {port} No Banner |OPEN" +Style.RESET_ALL )      
+                    sock.close()
                 time.sleep(0.5)
-
+                print(port_openorfiltered,"\n")
             except KeyboardInterrupt:
                 print(Fore.RED + "\n[!] Scan interrupted by user."  +Style.RESET_ALL )
                 sys.exit(0)
@@ -155,7 +171,40 @@ def UDP_scan(target, port):
 def common_port_scan():
 #scan method chooser
     if args.sT:
-     three_way_handshake(target, ports)
+     print(args.sT)
+     print(Fore.LIGHTBLACK_EX + "[&] TCP Three Way Handshake scan...\n"  +Style.RESET_ALL )
+    #  with ThreadPoolExecutor(max_workers=10) as executor:
+    #     for port in ports:
+    #         executor.submit(three_way_handshake, target, port)
+     port_results = []
+    
+     try:
+        with concurrent.futures.ThreadPoolExecutor(max_workers=200) as executor:
+            # Create a dictionary mapping futures to ports
+            future_to_port = {
+                executor.submit(three_way_handshake, target, port): port for port in ports
+            }
+            
+            # Process completed futures as they complete
+            for future in concurrent.futures.as_completed(future_to_port):
+                try:
+                    port, is_open, banner = future.result()
+                    if is_open:
+                        if banner:
+                            port_results.append(
+                                Fore.LIGHTWHITE_EX + f"[+] {port} Banner: {banner} |OPEN" + Style.RESET_ALL
+                            )
+                        else:
+                            port_results.append(
+                                Fore.LIGHTWHITE_EX + f"[+] {port} No Banner |OPEN" + Style.RESET_ALL
+                            )
+                except Exception as exc:
+                    pass
+                    # port = future_to_port[future]
+                    # print(f"Port {port} generated an exception: {exc}")
+     except KeyboardInterrupt:
+         pass
+#     three_way_handshake(target, ports)
     elif args.sS:
         pass
     elif args.sU:
@@ -173,9 +222,41 @@ def common_port_scan():
 
 
 #this is a function for whois loopup , flag = -wh
-def whois_lookup(target):
-    pass
+def extract_tld(target):
+    parts = target.lower().split('.')
+    if len(parts) >= 3:
+        sub_tld = "." + parts[-2] + "." + parts[-1]  # e.g., .edu.in
+        if sub_tld in whois_servers:
+            return sub_tld
+    if len(parts) >= 2:
+        tld = "." + parts[-1]  # e.g., .com
+        if tld in whois_servers:
+            return tld
+    return None
 
+def whois_lookup(target):
+    tld = extract_tld(target)
+    if not tld:
+        return Fore.RED + f"[-] Unsupported or unknown TLD for domain '{target}'."+  Style.RESET_ALL
+    server = whois_servers[tld]
+    try:
+        with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+            s.connect((server, 43))
+            s.sendall((target + "\r\n").encode())
+            response = b""
+            while True:
+                data = s.recv(4096)
+                if not data:
+                    break
+                response += data
+        return response.decode(errors="ignore")
+    except Exception as e:
+        return f"[!] Error connecting to WHOIS server: {e}"
+
+def whois_main(target):
+    print(Fore.GREEN + f"[+] Performing WHOIS lookup for: {target}")
+    result = whois_lookup(target)
+    print(Fore.GREEN + f"{result}")
 #######################################################################################################
 
 if __name__ == "__main__":
@@ -215,14 +296,19 @@ if __name__ == "__main__":
         print(Fore.LIGHTBLACK_EX + "Invalid Scan Type"  +Style.RESET_ALL )
 
     print(Fore.LIGHTBLACK_EX+ f"Target: {args.target}  |  Mode: {scan_type}  |  Ports: {scan_range}"+Style.RESET_ALL)
-#other functons
-    if args.wh:
-        whois_lookup(target)
-    if args.sub:
-        pass    
-    if args.dir:
-        pass
+
 #port scanning functions
     if args.pS:
         common_port_scan()
 
+#other functons
+    if args.wh:
+        whois_main(target)
+    if args.sub:
+        pass    
+    if args.dir:
+        pass
+
+    print(Fore.LIGHTBLACK_EX + "\n[!] Recon completed."  +Style.RESET_ALL )
+    print(Fore.LIGHTBLACK_EX + "[!] Exiting..."  +Style.RESET_ALL )
+    sys.exit(0)
