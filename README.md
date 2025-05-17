@@ -37,7 +37,7 @@ Phantom Recon has various kinds of Recon , Network Mapping , Forensics , and OSI
  . Fast scanning using concurrent threads .<br/>
    There are three different ranges for port scanning.<br>
    `-pS` for Common port only scan (available)<br>
-   `-pC` for Custom port scan works with `-p` (port) to scan custom range (eg: -p 100-200) ((Not available))<br>
+   `-pC` for Custom port scan works with `-p` (port) to scan custom range eg: `-p 100-200` ((Not available))<br>
    `-pA` for all 65536 port scanning . (Not available)<br>
    
 ### All scan ranges also need arg for type of scan .(Default TCP)
