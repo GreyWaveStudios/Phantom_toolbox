@@ -45,3 +45,14 @@ if __name__ == "__main__":
 
     if args.pS:
         PortScanner.common_ports(target,args=args)
+    elif args.pA:
+        PortScanner.all_ports(target,args=args)
+    elif args.pC:
+        PortScanner.custom_ports(target,args=args)
+
+    if args.wh:
+        whois.whois_main(target)
+
+
+    print(Fore.BLUE+ f"Recon completed at Date: {current_date} | Time: {current_time}"+Style.RESET_ALL)
+    sys.exit(0)
