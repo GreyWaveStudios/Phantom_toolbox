@@ -25,6 +25,8 @@ def port_scan_runner(target,scan_type,scan_range):
 def common_ports(domain,args):
     if args.sT:
         tcp_scan_S(domain)
+        print(Fore.LIGHTBLACK_EX + "|TCP Scan Completed| \n" + Style.RESET_ALL)
+        print("=="*50, "\n")
         #print(port_openorfiltered)
 
 
@@ -46,11 +48,11 @@ def tcp_scan_S(domain):
             if result == 0:
                         try:
                             banner = sock.recv(1024).decode(errors="ignore").strip()
-                            print(Fore.LIGHTWHITE_EX + f"[+] {port}  |OPEN \n" +Style.RESET_ALL)
+                            print(Fore.LIGHTWHITE_EX + f"[+] {port}  |OPEN" +Style.RESET_ALL)
                             #port_openorfiltered.append(Fore.LIGHTWHITE_EX + f"[+] {port}  |OPEN \n" +Style.RESET_ALL)
                         except socket.error:
                             #port_openorfiltered.append(Fore.LIGHTWHITE_EX + f"[+] {port}  |OPEN \n" +Style.RESET_ALL )
-                            print(Fore.LIGHTWHITE_EX + f"[+] {port}  |OPEN \n" +Style.RESET_ALL)
+                            print(Fore.LIGHTWHITE_EX + f"[+] {port}  |OPEN" +Style.RESET_ALL)
             sock.close()
     except KeyboardInterrupt:
                 print(Fore.RED + "\n[!] Scan interrupted by user."  +Style.RESET_ALL )

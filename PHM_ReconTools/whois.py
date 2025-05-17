@@ -15,9 +15,9 @@ whois_servers = {
 }
 
 def whois_main(target):
-    print(Fore.GREEN + f"[+] Performing WHOIS lookup for: {target}")
+    print(Fore.LIGHTBLACK_EX + f"[+] Performing WHOIS lookup for: {target}")
     result = whois_lookup(target)
-    print(Fore.GREEN + f"{result}")
+    print(Fore.LIGHTBLACK_EX + f"{result}")
 
 def extract_tld(target):
     parts = target.lower().split('.')

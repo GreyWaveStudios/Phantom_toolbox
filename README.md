@@ -1,4 +1,6 @@
 !!! Currently under Development , No tool is avaliable for use after old version was deleted<br/><br/>
+Following commands available together or seperate ...<br>
+`PHM_Recon.py -td <target domain> -pS -sT -wh -sub`
 
 # Phantom_toolbox
 <br/>
