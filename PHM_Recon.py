@@ -50,6 +50,9 @@ if __name__ == "__main__":
     elif args.pC:
         PortScanner.custom_ports(target,args=args)
 
+    if args.sub:
+        subdomain.run_subdomain(target)
+
     if args.wh:
         whois.whois_main(target)
 
