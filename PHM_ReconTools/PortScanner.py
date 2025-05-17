@@ -2,6 +2,7 @@ import socket
 from concurrent.futures import ThreadPoolExecutor, as_completed
 import scapy
 import requests
+import sys
 from colorama import Fore,Style
 
 common_services = {
@@ -14,13 +15,18 @@ common_services = {
 }
 
 all_port = 65535
+ports = list(common_services.keys())
+port_openorfiltered = []
 
 def port_scan_runner(target,scan_type,scan_range):
     pass
 
 # Ports scanning Range
-def common_ports():
-    pass
+def common_ports(domain,args):
+    if args.sT:
+        tcp_scan_S(domain)
+        #print(port_openorfiltered)
+
 
 def all_ports():
     pass
@@ -30,21 +36,45 @@ def custom_ports():
 
 #Port scanning methods or Types
 
-def tcp_scan():
-    pass    
+def tcp_scan_S(domain):
+    try:
+        for port in ports:
+            sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+            sock.settimeout(1)
+            result = sock.connect_ex((domain, port))
 
-def udp_scan():
+            if result == 0:
+                        try:
+                            banner = sock.recv(1024).decode(errors="ignore").strip()
+                            print(Fore.LIGHTWHITE_EX + f"[+] {port}  |OPEN \n" +Style.RESET_ALL)
+                            #port_openorfiltered.append(Fore.LIGHTWHITE_EX + f"[+] {port}  |OPEN \n" +Style.RESET_ALL)
+                        except socket.error:
+                            #port_openorfiltered.append(Fore.LIGHTWHITE_EX + f"[+] {port}  |OPEN \n" +Style.RESET_ALL )
+                            print(Fore.LIGHTWHITE_EX + f"[+] {port}  |OPEN \n" +Style.RESET_ALL)
+            sock.close()
+    except KeyboardInterrupt:
+                print(Fore.RED + "\n[!] Scan interrupted by user."  +Style.RESET_ALL )
+                sys.exit(0)
+    except socket.gaierror:
+                print(Fore.RED +"\n[!] Hostname could not be resolved."  +Style.RESET_ALL )
+                sys.exit(0)
+    except socket.error as e:
+                print(Fore.RED +"\n[!] Couldn't connect to server.",  +Style.RESET_ALL )
+                sys.exit(0)
+
+
+def udp_scan_S():
     pass     
 
-def syn_scan():
+def syn_scan_S():
     pass
 
-def fin_scan():
+def fin_scan_S():
     pass    
 
-def xmas_scan():
+def xmas_scan_S():
     pass
 
-def null_scan():
+def null_scan_S():
     pass    
 
