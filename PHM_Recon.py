@@ -52,6 +52,9 @@ if __name__ == "__main__":
 
     if args.sub:
         subdomain.run_subdomain(target)
+    
+    if args.dir:
+        directory.run_dir_scan(target)
 
     if args.wh:
         whois.whois_main(target)

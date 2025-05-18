@@ -1,6 +1,6 @@
 !!! Currently under Development , No tool is avaliable for use after old version was deleted<br/><br/>
 Following commands available together or seperate ...<br>
-`PHM_Recon.py -td <target domain> -pS -sT -wh -sub`
+`PHM_Recon.py -td <target domain> -pS -sT -wh -sub -dir`
 
 # Phantom_toolbox
 <br/>
@@ -68,5 +68,4 @@ Phantom Recon has various kinds of Recon , Network Mapping , Forensics , and OSI
  . Finds the directory of any website using a wordlist<br/>
  . Wordlist contains directory names from various sources reliable for most of the scans ... <br/>
  . If you want to use custom wordlist, you will have to add the path manually.<br/>
-   You can use `-dir` for directory enumeration.
-   (Not Available)
+   You can use `-dir` for directory enumeration.<br>

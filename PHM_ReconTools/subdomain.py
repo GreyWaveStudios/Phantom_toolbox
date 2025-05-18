@@ -1,10 +1,8 @@
 import requests
-import os
 from colorama import Fore, Style
 #from concurrent.futures import ThreadPoolExecutor, as_completed
 
 def check_subdomain(domain, subdomain_list):
-    print(Fore.LIGHTBLACK_EX + f"[*] Starting Subdomain Enumeration for {domain}...")
     active_subdomains = []
     for sub in subdomain_list:
         url = f"http://{sub}.{domain}"
@@ -20,8 +18,8 @@ def check_subdomain(domain, subdomain_list):
     return active_subdomains
 
 def run_subdomain(domain): 
+    print(Fore.LIGHTBLACK_EX + f"[*] Starting Subdomain Enumeration for {domain}...")
     try:
-    
         with open("PHM_ReconTools\wordlists\subdomain.txt", "r") as file:
             subdomains = [line.strip() for line in file]
         found_subdomains = check_subdomain(domain, subdomains)
@@ -31,4 +29,4 @@ def run_subdomain(domain):
         print("=="*50, "\n")
 
     except FileNotFoundError:
-        print(Fore.RED + "[!] Subdomain file not found. Please ensure 'subdomain.txt' exists in the 'PHM_ReconTools\wordlists\' directory.")
+        pass

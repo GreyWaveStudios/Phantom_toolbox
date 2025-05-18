@@ -26,7 +26,7 @@ def common_ports(domain,args):
     if args.sT:
         tcp_scan_S(domain)
         print(Fore.LIGHTBLACK_EX + "|TCP Scan Completed| \n" + Style.RESET_ALL)
-        print("=="*50, "\n")
+        print("\n")
         #print(port_openorfiltered)
 
 
