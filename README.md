@@ -1,4 +1,4 @@
-!!! Currently under Development , No tool is avaliable for use after old version was deleted<br/><br/>
+!!! Currently under Development ,Phantom_toolbox v0.1.5 lite verison available for now ... :)<br/><br/>
 Following commands available together or seperate ...<br>
 ### The tools are pretty slow for now but I am working on it and pretty soon the phantom will have concurrent threads ...
 
