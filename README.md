@@ -1,6 +1,7 @@
 !!! Currently under Development , No tool is avaliable for use after old version was deleted<br/><br/>
 Following commands available together or seperate ...<br>
-`PHM_Recon.py -td <target domain> -pS -sT -wh -sub -dir`
+### The tools are pretty slow for now but I am working on it and pretty soon the phantom will have concurrent threads ...
+
 
 # Phantom_toolbox
 <br/>
@@ -38,9 +39,9 @@ Phantom Recon has various kinds of Recon , Network Mapping , Forensics , and OSI
  . Different methods for scanning available for stealth or fast scans (TCP,UDP,SYN,ACK,FIN,Xmas,NULL).<br/>
  . Fast scanning using concurrent threads .<br/>
    There are three different ranges for port scanning.<br>
-   `-pS` for Common port only scan (available)<br>
-   `-pC` for Custom port scan works with `-p` (port) to scan custom range eg: `-p 100-200` ((Not available))<br>
-   `-pA` for all 65536 port scanning . (Not available)<br>
+   `-pS` for Common port only scan<br>
+   `-pC` for Custom port scan works with `-p` (port) to scan custom range eg: `-p 100-200`<br>
+   `-pA` for all 65536 port scanning .<br>
    
 ### All scan ranges also need arg for type of scan .(Default TCP)
    There are 7 methods to do scan listed below and how to use ...<br>

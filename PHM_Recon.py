@@ -14,8 +14,8 @@ current_date = now.strftime("%Y-%m-%d")
 
 #arguments
 parser = argparse.ArgumentParser(description="Phantom~network~Scanner")
-parser.add_argument("-td" , "--target" ,type=str ,required=True, help="target Domain")
-parser.add_argument("-p" , "--port",type = str, help="port number to scan")
+parser.add_argument("-td" , "--target" ,type=str ,required=True, help="target Domain" )
+parser.add_argument("-p" , "--port",type = str, help="port number to scan", default="1-100")
 parser.add_argument('-pS', action='store_true', help='Common port scan')
 parser.add_argument('-pC', action='store_true', help='Custom port scan')
 parser.add_argument('-pA', action='store_true', help='All ports scan')
@@ -35,20 +35,23 @@ args = parser.parse_args()
 
 target = args.target
 port_range = args.port
-
-#start_port, end_port = map(int, port_range.split('-'))
+start_port, end_port = map(int, port_range.split("-"))
 
 if __name__ == "__main__":
     print(Fore.BLUE+ f"Phantom Recon v0.1.5 | By [Phantom Group]"+Style.RESET_ALL)
     print(Fore.BLUE+ f"Starting Recon at Date: {current_date} | Time: {current_time}"+Style.RESET_ALL)
 
+    if not (args.sT or args.sP or args.sA or args.sU or args.sF or args.sX or args.sN):
+        args.sT = True
 
     if args.pS:
-        PortScanner.common_ports(target,args=args)
+        PortScanner.common_ports(target,args)
+
     elif args.pA:
-        PortScanner.all_ports(target,args=args)
+        PortScanner.all_ports(target,args)
+        
     elif args.pC:
-        PortScanner.custom_ports(target,args=args)
+        PortScanner.custom_ports(target, start_port, end_port,args)
 
     if args.sub:
         subdomain.run_subdomain(target)
